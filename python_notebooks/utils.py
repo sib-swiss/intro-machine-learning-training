@@ -94,6 +94,14 @@ def countour_knn(n,X,y,w):#(number of nearest neighbors, feature matrix, label, 
 
 
 def countour_lr(p,X,y,c,mult):
+    """
+        Takes:
+            * p : penalty {‘l1’, ‘l2’, ‘elasticnet’, ‘none’}
+            * X : covariables
+            * y : target
+            * c : inverse regularization strength
+            * mult : how to handle multi-class {‘auto’, ‘ovr’, ‘multinomial’}
+    """
     models = LogisticRegression(penalty = p,C=c, multi_class=mult)# Create the logistic regresison object(with 3 main hyperparameters!!)
     # penalty is either l1 or l2, C is how much weight we put on the regularization, multi_calss is how we proceed when multiclasses
     models = models.fit(X, y)
@@ -394,6 +402,16 @@ def roc_multi_ovo(grid_lr_acc_i,n_classes,X_train,y_train,X_test,y_test):
     plt.show()
 
 def countour_SVM(X,y,c,ker,deg,gam,mult):
+    """
+    Takes:
+        * X : covariable 
+        * y : target
+        * c : regulatization parameter
+        * ker : kernel
+        * deg : degree
+        * gam : gamma
+        * mult : decision function shape
+    """
     models = svm.SVC(C=c, kernel=ker, degree=deg, gamma= gam, decision_function_shape=mult,probability=True)
     #those are all the hyperparameters that are, in my opinion, important to tune. C is again the good old inverse of the weight for l2 
     #regularization, kernel is the dot product you want to use, degree is the degree of the polynomial kernel you want to use,
