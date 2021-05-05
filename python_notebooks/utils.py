@@ -596,6 +596,21 @@ def countour_tree(X,y,crit,maxd,min_s,min_l,max_f):#to understand what those hyp
 
 
 def countour_RF(X,y,n_tree,crit,maxd,min_s,min_l,max_f):
+    """
+    Performs a classification using a random forest and plots a 2D decision space
+    and then does the same for a single tree classifier with similar hyper parameters for comparison
+    
+    Takes:
+        * X : covariables
+        * y : target
+        * n_tree : number of tree in the forest
+        * crit : impurity criterion
+        * maxd : tree max depth
+        * min_s : minimum number of samples to consider an internal node rule
+        * min_l : minimum number of samples to consider an leaf node rule
+        * max_f : maximum number of features to consider at a node
+    """
+    
     models = RandomForestClassifier(n_tree,criterion=crit,max_depth=maxd,min_samples_split=min_s,min_samples_leaf=min_l,max_features=max_f)
     models = models.fit(X, y) 
     dico_color={0:'blue',1:'white',2:'red'}
@@ -714,6 +729,14 @@ def countour_RF(X,y,n_tree,crit,maxd,min_s,min_l,max_f):
     plt.show()
 
 def countour_ADA(X,y,n_tree,learn_r):
+    '''
+    Takes:
+        * X : covariables
+        * y : target
+        * n_tree : number of stumps
+        * learn_r : learning rate
+    
+    '''
     models = AdaBoostClassifier(n_estimators=n_tree,learning_rate=learn_r)
     models = models.fit(X, y) 
     dico_color={0:'blue',1:'white',2:'red'}
@@ -778,8 +801,19 @@ def countour_ADA(X,y,n_tree,learn_r):
     plt.show()
 
 
-def countour_BG(X,y,n_tree,learn_r,maxd,min_s,min_l,max_f):
-    models = GradientBoostingClassifier(n_estimators=n_tree,learning_rate=learn_r,max_depth=maxd,min_samples_split=min_s,min_samples_leaf=min_l,max_features=max_f)
+def countour_BG(X,y,n_tree,learn_r,max_d,min_s,min_l,max_f):
+    """
+    Takes: 
+        * X : covariables data
+        * y : target
+        * n_tree : number of trees
+        * learn_r : learning rate
+        * max_dd : tree max depth
+        * min_s : minimum number of samples to consider an internal node rule
+        * min_l : minimum number of samples to consider an leaf node rule
+        * max_f : maximum number of features to consider at a node
+    """
+    models = GradientBoostingClassifier(n_estimators=n_tree,learning_rate=learn_r,max_depth=max_d,min_samples_split=min_s,min_samples_leaf=min_l,max_features=max_f)
     models = models.fit(X, y) 
     dico_color={0:'blue',1:'white',2:'red'}
         # title for the plots
