@@ -29,14 +29,14 @@ plt.rc('ytick', color='k', labelsize='medium', direction='in')
 plt.rc('ytick.major', size=8, pad=12)
 plt.rc('ytick.minor', size=8, pad=12)
 
-def make_meshgrid(x, y, h=.02):
+def make_meshgrid(x, y, n=100):
     """Create a mesh of points to plot in
 
     Parameters
     ----------
     x: data to base x-axis meshgrid on
     y: data to base y-axis meshgrid on
-    h: stepsize for meshgrid, optional
+    n: number of intermediary points (optional)
 
     Returns
     -------
@@ -44,8 +44,10 @@ def make_meshgrid(x, y, h=.02):
     """
     x_min, x_max = x.min() - 1, x.max() + 1
     y_min, y_max = y.min() - 1, y.max() + 1
-    xx, yy = np.meshgrid(np.arange(x_min, x_max, h),
-                         np.arange(y_min, y_max, h))
+    #xx, yy = np.meshgrid(np.arange(x_min, x_max, h),
+    #                     np.arange(y_min, y_max, h))
+    xx, yy = np.meshgrid(np.linspace(x_min, x_max, n),
+                         np.linspace(y_min, y_max, n))
     return xx, yy
 
 
@@ -66,19 +68,32 @@ def plot_contours(ax, clf, xx, yy, **params):
     return out
 
 
-def countour_knn(n,X,y,w):#(number of nearest neighbors, feature matrix, label, voting rule)
+def countour_knn(n,X,y,w , resolution = 100, ax = None):
+    '''
+        Takes:
+            - n : number of nearest neighbors
+            - X : feature matrix
+            - y : label
+            - w : voting rule
+            - resolution = 100 : number of points in the mesh (high number affect performance)
+            - ax = None : ax for plotting
+
+        returns:
+            (matplotlib.Axe)
+    '''
     models = KNeighborsClassifier(n_neighbors = n,weights=w, n_jobs=-1)
     models = models.fit(X, y) 
 
         # title for the plots
     titles = 'K neighbors k='+str(n)+', '+w
 
-        # Set-up 2x2 grid for plotting.
-    fig, ax = plt.subplots(1, 1)
-        #plt.subplots_adjust(wspace=0.4, hspace=0.4)
+
+    if ax is None:
+        fig, ax = plt.subplots(1, 1)
+        
 
     X0, X1 = X[:, 0], X[:, 1]
-    xx, yy = make_meshgrid(X0, X1)
+    xx, yy = make_meshgrid(X0, X1 , n=resolution)
 
 
 
@@ -90,7 +105,7 @@ def countour_knn(n,X,y,w):#(number of nearest neighbors, feature matrix, label, 
     ax.set_xticks(())
     ax.set_yticks(())
     ax.set_title(titles)
-    plt.show()
+    return ax
 
 
 def countour_lr(p,X,y,c,mult):
