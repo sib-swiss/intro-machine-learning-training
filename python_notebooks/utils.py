@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-
+from matplotlib.gridspec import GridSpec
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.metrics import accuracy_score, confusion_matrix
 from sklearn.linear_model import LogisticRegression
@@ -622,7 +622,6 @@ def countour_tree(X,y,crit,maxd,min_s,min_l,max_f):#to understand what those hyp
 
     return Image(graph.create_png())
 
-
 def countour_RF(X,y,n_tree,crit,maxd,min_s,min_l,max_f):
     """
     Performs a classification using a random forest and plots a 2D decision space
@@ -643,26 +642,35 @@ def countour_RF(X,y,n_tree,crit,maxd,min_s,min_l,max_f):
     models = models.fit(X, y) 
     dico_color={0:'blue',1:'white',2:'red'}
         # title for the plots
-    titles = 'Random Forest '+' '.join([str(crit),str(maxd),str(min_s),str(min_l),str(max_f)])
+    titles = 'Random Forest '+' '.join([str(crit),
+                                        str(maxd),
+                                        str(min_s),
+                                        str(min_l),
+                                        str(max_f)])
 
-        # Set-up 2x2 grid for plotting.
-    fig, ax = plt.subplots(1, 1)
-        #plt.subplots_adjust(wspace=0.4, hspace=0.4)
 
+    nCat = len(set(y))
+    
+    fig = plt.figure(constrained_layout=True,figsize=(10,4+np.ceil(nCat/4)*4))
+    gs = GridSpec( 2+ int(np.ceil(nCat/4)), 4, figure=fig)
+    #print( 2+ int(np.ceil(nCat/4)), 4 )
+
+    ### plot 1 : RF contour
+    ax = fig.add_subplot(gs[:2, :2])
+    
     X0, X1 = X[:, 0], X[:, 1]
     xx, yy = make_meshgrid(X0, X1)
     
     Xfull = np.c_[xx.ravel(), yy.ravel()]
 
 
-    plot_contours(ax, models, xx, yy,
-                      cmap=plt.cm.coolwarm, alpha=0.8)
+    plot_contours(ax, models, xx, yy, cmap=plt.cm.coolwarm, alpha=0.8)
     ax.scatter(X0, X1, c=y, cmap=plt.cm.coolwarm, s=20, edgecolors='k')
     ax.set_xlim(xx.min(), xx.max())
     ax.set_ylim(yy.min(), yy.max())
     ax.set_title(titles)
-    plt.show()
     
+    ## probability contour for each category
     xx = np.linspace(np.min(X0)-5, np.max(X0)+5, 100)
     yy = np.linspace(np.min(X1)-5, np.max(X1)+5, 100).T
     xx, yy = np.meshgrid(xx, yy)
@@ -674,46 +682,49 @@ def countour_RF(X,y,n_tree,crit,maxd,min_s,min_l,max_f):
     probas = models.predict_proba(Xfull)
     n_classes = np.unique(y_pred).size
     
-    plt.figure(figsize=(10*n_classes,10))
+
     for k in range(n_classes):
-        plt.subplot(1, n_classes, k + 1)
+        #print(k,2+k//4, k%4)
+        ax = fig.add_subplot(gs[2+k//4, k%4])
+        
         if k == 0:
-            plt.ylabel('Random Forest')
-        imshow_handle = plt.imshow(probas[:, k].reshape((100, 100)),extent=(np.min(X0)-5, np.max(X0)+5, np.min(X1)-5, np.max(X1)+5), origin='lower',cmap='plasma')
-        plt.xticks(())
-        plt.xlim([np.min(X0)-5, np.max(X0)+5])
-        plt.ylim([np.min(X1)-5, np.max(X1)+5])
-        plt.yticks(())
-        plt.title('Class '+str(k),fontsize=25)
+            ax.set_ylabel('Random Forest')
+        imshow_handle = ax.imshow(probas[:, k].reshape((100, 100)),
+                                  extent=(np.min(X0)-5, np.max(X0)+5, 
+                                          np.min(X1)-5, np.max(X1)+5), 
+                                  origin='lower',cmap='plasma')
+        ax.set_xticks(())
+        ax.set_xlim([np.min(X0)-5, np.max(X0)+5])
+        ax.set_ylim([np.min(X1)-5, np.max(X1)+5])
+        ax.set_yticks(())
+        ax.set_title('Class '+str(k),fontsize=25)
         
         idx = (y_pred == k)
         
         if idx.any():
             
-            plt.scatter(X[idx, 0], X[idx, 1],s=100, marker='o', c=[dico_color[h] for h in y[idx]], edgecolor='k')
+            ax.scatter(X[idx, 0], X[idx, 1],
+                       s=100, marker='o', 
+                       c=[dico_color[h] for h in y[idx]], edgecolor='k')
 
-    ax = plt.axes([0,0,1,0.05])
-    plt.title("Probability",fontsize=25)
-    plt.colorbar(imshow_handle, cax=ax, orientation='horizontal')
-
-    plt.show()
     
-    models = DecisionTreeClassifier(criterion=crit,max_depth=maxd,min_samples_split=min_s,min_samples_leaf=min_l,max_features=max_f)
+    ## comparing with a decision tree
+    models = DecisionTreeClassifier(criterion=crit,
+                                    max_depth=maxd,
+                                    min_samples_split=min_s,
+                                    min_samples_leaf=min_l,
+                                    max_features=max_f)
     models = models.fit(X, y) 
 
         # title for the plots
     titles = 'Decision tree '+' '.join([str(crit),str(maxd),str(min_s),str(min_l),str(max_f)])
 
-        # Set-up 2x2 grid for plotting.
-    fig, ax = plt.subplots(1, 1)
-        #plt.subplots_adjust(wspace=0.4, hspace=0.4)
+    ### plot 1 : RF contour
+    ax = fig.add_subplot(gs[:2, 2:])
 
     X0, X1 = X[:, 0], X[:, 1]
     xx, yy = make_meshgrid(X0, X1)
     
-    
-
-
     plot_contours(ax, models, xx, yy,
                       cmap=plt.cm.coolwarm, alpha=0.8)
     ax.scatter(X0, X1, c=y, cmap=plt.cm.coolwarm, s=20, edgecolors='k')
@@ -722,50 +733,24 @@ def countour_RF(X,y,n_tree,crit,maxd,min_s,min_l,max_f):
     ax.set_title(titles)
     plt.show()
     
-    xx = np.linspace(np.min(X0)-5, np.max(X0)+5, 100)
-    yy = np.linspace(np.min(X1)-5, np.max(X1)+5, 100).T
-    xx, yy = np.meshgrid(xx, yy)
-    Xfull = np.c_[xx.ravel(), yy.ravel()]
-    y_pred = models.predict(X)
-    accuracy = accuracy_score(y, y_pred)
-    # View probabilities:
-    probas = models.predict_proba(Xfull)
-    n_classes = np.unique(y_pred).size
-    
-    plt.figure(figsize=(10*n_classes,10))
-    for k in range(n_classes):
-        plt.subplot(1, n_classes, k + 1)
-        if k == 0:
-            plt.ylabel('Decision tree')
-        imshow_handle = plt.imshow(probas[:, k].reshape((100, 100)),extent=(np.min(X0)-5, np.max(X0)+5, np.min(X1)-5, np.max(X1)+5), origin='lower',cmap='plasma',alpha=0.5)
-        plt.xticks(())
-        plt.xlim([np.min(X0)-5, np.max(X0)+5])
-        plt.ylim([np.min(X1)-5, np.max(X1)+5])
-        plt.yticks(())
-        plt.title('Class '+str(k),fontsize=25)
-        
-        idx = (y_pred == k)
-        
-        if idx.any():
-            
-            plt.scatter(X[idx, 0], X[idx, 1],s=100, marker='o', c=[dico_color[h] for h in y[idx]], edgecolor='k')
-
     ax = plt.axes([0,0,1,0.05])
     plt.title("Probability",fontsize=25)
     plt.colorbar(imshow_handle, cax=ax, orientation='horizontal')
-
     plt.show()
 
-def countour_ADA(X,y,n_tree,learn_r):
+    
+def countour_ADA(X,y,n_estimators,learning_rate):
     '''
     Takes:
         * X : covariables
         * y : target
-        * n_tree : number of stumps
-        * learn_r : learning rate
+        * n_estimators : number of stumps
+        * learning_rate : learning rate
     
     '''
-    models = AdaBoostClassifier(n_estimators=n_tree,learning_rate=learn_r)
+    n_tree=n_estimators
+    learn_r=learning_rate
+    models = AdaBoostClassifier(n_estimators=n_estimators,learning_rate=learning_rate)
     models = models.fit(X, y) 
     dico_color={0:'blue',1:'white',2:'red'}
         # title for the plots
@@ -829,23 +814,36 @@ def countour_ADA(X,y,n_tree,learn_r):
     plt.show()
 
 
-def countour_BG(X,y,n_tree,learn_r,max_d,min_s,min_l,max_f):
+def countour_BG(X,y,
+                n_estimators,
+                learning_rate,
+                max_depth,
+                min_samples_split,
+                min_samples_leaf,
+                max_features='auto'):
     """
     Takes: 
         * X : covariables data
         * y : target
-        * n_tree : number of trees
-        * learn_r : learning rate
-        * max_dd : tree max depth
-        * min_s : minimum number of samples to consider an internal node rule
-        * min_l : minimum number of samples to consider an leaf node rule
-        * max_f : maximum number of features to consider at a node
+        * n_estimators : number of trees
+        * learning_rate : learning rate
+        * max_depth : tree max depth
+        * min_samples_split : minimum number of samples to consider an internal node rule
+        * min_samples_leaf : minimum number of samples to consider an leaf node rule
+        * max_features : maximum number of features to consider at a node
+    
+    
     """
-    models = GradientBoostingClassifier(n_estimators=n_tree,learning_rate=learn_r,max_depth=max_d,min_samples_split=min_s,min_samples_leaf=min_l,max_features=max_f)
+    models = GradientBoostingClassifier(n_estimators=n_estimators,
+                                        learning_rate=learning_rate,
+                                        max_depth=max_depth,
+                                        min_samples_split=min_samples_split,
+                                        min_samples_leaf=min_samples_leaf,
+                                        max_features=max_features)
     models = models.fit(X, y) 
     dico_color={0:'blue',1:'white',2:'red'}
         # title for the plots
-    titles = 'Gradient Boosted '+' '.join([str(n_tree),str(learn_r)])
+    titles = 'Gradient Boosted '+' '.join([str(n_estimators),str(learning_rate)])
 
         # Set-up 2x2 grid for plotting.
     fig, ax = plt.subplots(1, 1,figsize=(5,5))
