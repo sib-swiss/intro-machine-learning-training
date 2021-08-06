@@ -1,4 +1,3 @@
-
 ## splitting the data into a train an test set
 X_train, X_test , y_train , y_test = train_test_split( dfTT , y , 
                                                       test_size=0.25, 
@@ -10,7 +9,6 @@ X_train, X_test , y_train , y_test = train_test_split( dfTT , y ,
 from collections import Counter
 print( "train set", Counter( y_train ) )
 print( "test set", Counter( y_test ) )
-
 
 
 %%time
@@ -38,11 +36,12 @@ grid_param = [ {'classifier':[RandomForestClassifier(n_jobs=-1,class_weight='bal
                'classifier__learning_rate':np.arange(0.01,0.1,0.02) }]
 
 
-gridsearch_Potato = GridSearchCV(pipe, grid_param, cv=5, verbose=0,n_jobs=-1,scoring='accuracy') # Fit grid search
+
+gridsearch_Potato = GridSearchCV(pipe, grid_param, cv=5, verbose=0,n_jobs=-1,scoring='roc_auc') # Fit grid search
 best_model_Potato = gridsearch_Potato.fit(X_train,y_train)
 
-print(best_model_C.best_params_)
-print("Model accuracy:",best_model_Potato.score(X_test,y_test))
+print(best_model_Potato.best_params_)
+print("Model roc_auc:",best_model_Potato.score(X_test,y_test))
 
 
 ## predicting the labels on the test set    
@@ -66,6 +65,7 @@ plotConfusionMatrix( y_test, y_pred_test,
                     ['White','Yellow'],
                     plotTitle , 
                     ax = None)
+plot_roc_curve(best_model_Potato,X_test, y_test)
 
 ## extract the best estimator steps from the pipeline
 skb = best_model_Potato.best_estimator_.steps[0][1]
@@ -84,3 +84,4 @@ featureWsorted = featureW.sort_values(by=['weight'] ,
 # get the non-null ones
 print('Features sorted per importance:')
 featureWsorted.loc[ ~ np.isclose( featureWsorted["weight"] , 0 ) ]
+plot_roc_curve(best_model_Potato,X_test, y_test)
