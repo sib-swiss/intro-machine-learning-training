@@ -95,6 +95,7 @@ cluster_labels_mam = kmeans_mam.labels_
 ## I put here a bunch of colors I like
 cluster_2_colors = [ 'xkcd:teal' , 'xkcd:lavender' , 'xkcd:mustard' , 'xkcd:sage' ]
 
+from collections import Counter
 print(Counter(cluster_labels_mam))
 
 plt.figure(figsize=(10,10))

@@ -32,7 +32,7 @@ for i, v in enumerate(feature_vectors): # enumerate over the rows of feature_vec
     axes[1].arrow(0, 0, arrow_size * v[0], arrow_size * v[1], head_width=0.00008, head_length=0.00008, width=0.00005,
               color=cmap((1.0 * i) / n))
     text_pos = -0.005 if v[0] < 0 else 0.0001
-    axes[1].text(v[0]*arrow_size+text_pos, v[1]*arrow_size+0.0001, X_im.columns[i], 
+    axes[1].text(v[0]*arrow_size+text_pos, v[1]*arrow_size+0.0001, X_aml.columns[i], 
             color=cmap((1.0 * i) / n),fontsize=10)
 
 
