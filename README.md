@@ -1,3 +1,8 @@
+
+
+October 2021 course : [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.5547011.svg)](https://doi.org/10.5281/zenodo.5547011)
+
+
 # intro-machine-learning-
 
 This repository regroups works on the "introduction to machine learning" course of the SIB.
