@@ -75,22 +75,25 @@ print('Grid best score (r2): ', grid_svr_P.best_score_)
 
 %%time
 from sklearn.ensemble import GradientBoostingRegressor
+skb = SelectKBest(f_regression, k=500)
+skb.fit(X_train , y_train)
+X_train_reduced = X_train.loc[ : , skb.get_support() ]
+
+X_test_reduced = X_test.loc[ : , skb.get_support() ]
 
 # define the hyperparameters you want to test with their range
-grid_values = {'selectk__k':[500],
-                'model__learning_rate':np.arange(10**-4,10**-3,2*10**-5),
-               'model__n_estimators':[100,500,], 
-               'model__max_depth':[100,300],#np.arange(2,10,2),
-               'model__min_samples_split':[2],#np.arange(2,len(X_diabetes_train)//10,20),
-               'model__min_samples_leaf':[1]}#np.arange(1,5,2)}
+grid_values = { 'model__learning_rate':10**np.arange(-1,-3 , -0.25),
+               'model__n_estimators':[100,200,300], 
+               'model__max_depth':[50,100,200],
+               'model__min_samples_split':[5],
+               'model__min_samples_leaf':[5]}
 
-pipeline_GB_P=Pipeline([('selectk',SelectKBest(f_regression)),
-                       ('model',GradientBoostingRegressor())])
+pipeline_GB_P=Pipeline([('model',GradientBoostingRegressor())])
 
 # Feed them to GridSearchCV with the right score (R squared)
 grid_GB_P = GridSearchCV(pipeline_GB_P, param_grid = grid_values, scoring='r2',n_jobs=-1)
 
-grid_GB_P.fit(X_train, y_train)
+grid_GB_P.fit(X_train_reduced, y_train)
 
 
 print('Grid best parameter (max. r2): ', grid_GB_P.best_params_)
@@ -98,11 +101,11 @@ print('Grid best score (r2): ', grid_GB_P.best_score_)
 
 
 print('linear regression best score (r2):      ', grid_lr_reg_P.best_score_)
-print('SVR best score (r2):                    ', grid_GB_P.best_score_)
-print('gradient boosting tree best score (r2): ', grid_svr_P.best_score_)
+print('SVR best score (r2):                    ', grid_svr_P.best_score_)
+print('gradient boosting tree best score (r2): ', grid_GB_P.best_score_)
 
 # so here the grid which gives the best r2 is the LR
-print( "best parameters" grid_lr_reg_P.best_params_ )
+print( "best parameters", grid_lr_reg_P.best_params_ )
 
 y_decision_fn_scores_acc=grid_lr_reg_P.score(X_test,y_test)
 
@@ -119,7 +122,7 @@ dftt_col=list(dfTT.columns)
 fnames = [dftt_col[i] for i in range(len(dftt_col)) if selec.get_support()[i]==True]
 
 ## sort them by importance
-sorted_list=sorted( zip( map( lambda x : pow2name(x,fnames) , poly.powers_) , LR.coef_ ) ,key=itemgetter(1),reverse=True)
+sorted_list=sorted( zip( map( lambda x : pow2name(x,fnames) , poly.powers_) , LR.coef_ ) ,key= lambda x : abs(x[1]),reverse=True)
 print('top10 feature importances')
 for f,w in sorted_list[:10]:
     print("{}\t{:.2f}".format(f,w))

@@ -14,10 +14,17 @@ print( "test set", Counter( y_test ) )
 %%time
 ##the %%time is a jupyter cell magic command which will measure the time 
 # it takes for a cell to run and report it.
+# WARNING : it only works if it is the 1st line of the cell, so you have to manually move it there...
 
-# pipeline starting with a feature selection
-pipe = Pipeline([('Kbest',SelectKBest(chi2, k=20)),
-                 ("classifier", DecisionTreeClassifier())])
+# starting with a feature selection
+skb = SelectKBest(chi2, k=20)
+skb.fit(X_train , y_train)
+X_train_reduced = X_train.loc[ : , skb.get_support() ]
+
+X_test_reduced = X_test.loc[ : , skb.get_support() ]
+
+# training pipeline
+pipe = Pipeline([("classifier", DecisionTreeClassifier())])
 # Create dictionary with candidate learning algorithms and their hyperparameters
 grid_param = [ {'classifier':[RandomForestClassifier(n_jobs=-1,class_weight='balanced')],
                 'classifier__criterion': ['entropy','gini'],
@@ -38,14 +45,14 @@ grid_param = [ {'classifier':[RandomForestClassifier(n_jobs=-1,class_weight='bal
 
 
 gridsearch_Potato = GridSearchCV(pipe, grid_param, cv=5, verbose=0,n_jobs=-1,scoring='roc_auc') # Fit grid search
-best_model_Potato = gridsearch_Potato.fit(X_train,y_train)
+best_model_Potato = gridsearch_Potato.fit(X_train_reduced,y_train)
 
 print(best_model_Potato.best_params_)
-print("Model roc_auc:",best_model_Potato.score(X_test,y_test))
+print("Model roc_auc on test set:",best_model_Potato.score(X_test_reduced,y_test))
 
 
 ## predicting the labels on the test set    
-y_pred_test=best_model_Potato.predict(X_test)
+y_pred_test=best_model_Potato.predict(X_test_reduced)
 
 bestN = best_model_Potato.best_params_["classifier__n_estimators"]
 bestCrit = best_model_Potato.best_params_["classifier__criterion"]
@@ -65,11 +72,10 @@ plotConfusionMatrix( y_test, y_pred_test,
                     ['White','Yellow'],
                     plotTitle , 
                     ax = None)
-plot_roc_curve(best_model_Potato,X_test, y_test)
+plot_roc_curve(best_model_Potato,X_test_reduced, y_test)
 
 ## extract the best estimator steps from the pipeline
-skb = best_model_Potato.best_estimator_.steps[0][1]
-RF = best_model_Potato.best_estimator_.steps[1][1]
+RF = best_model_Potato.best_estimator_.steps[0][1]
 
 w=RF.feature_importances_#get the weights
 selectedFeatures = dfTT.columns[ skb.get_support() ]
@@ -84,4 +90,3 @@ featureWsorted = featureW.sort_values(by=['weight'] ,
 # get the non-null ones
 print('Features sorted per importance:')
 featureWsorted.loc[ ~ np.isclose( featureWsorted["weight"] , 0 ) ]
-plot_roc_curve(best_model_Potato,X_test, y_test)
