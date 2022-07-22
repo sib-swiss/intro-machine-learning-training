@@ -13,11 +13,9 @@ In order to follow the course you need to have installed [python](https://www.py
 
 If you need help with the installation, you can refer to these [tips and instructions](https://github.com/sib-swiss/first-steps-with-python-training/blob/master/setting_up_your_environment.md)(NB: this links to another github repo).
 
-In addition, please ensure you have the following libraries installed:
- * [seaborn](https://seaborn.pydata.org/installing.html)
- * [scikit-learn](https://scikit-learn.org/stable/install.html)
 
-> NB: we will use several other libraries, such as numpy, scipy, matplotlib, or pandas, but they are pre-requisites of the 2 above, so they should be installed automatically if you install using pip or conda.
+In addition, there are a number of libraries to install.
+See the [intructions on installing prerequisite libraries](env_setup.md).
 
 
 ## course organization 
@@ -55,14 +53,4 @@ Note also the `utils.py` and `utils2.py` files which contain many utilitary func
 Please cite as : 
 
 Markus Mueller, Wandrille Duchemin, & Patricia Palagi. (2022, June 29). sib-swiss/intro-machine-learning-training: June 2022 course edition. Zenodo. [https://doi.org/10.5281/zenodo.6777795](https://doi.org/10.5281/zenodo.6777795)
-
-
-## TODO
-
-todo list :
- * "translate" python notebooks to R
- 	* chapter 1
- 	* chapter 2
- 	* chapter 3
- 	* chapter 4
 
