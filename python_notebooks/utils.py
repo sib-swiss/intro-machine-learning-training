@@ -68,7 +68,7 @@ def plot_contours(ax, clf, xx, yy, **params):
     return out
 
 
-def countour_knn(n,X,y,w , resolution = 100, ax = None):
+def contour_knn(n,X,y,w , resolution = 100, ax = None):
     '''
         Takes:
             - n : number of nearest neighbors
@@ -208,7 +208,7 @@ def makeROCcurve(X,y,model,ax):
     else:
         makeROCcurveBin(X,y,model,ax)
 
-def countour_lr(p,X,y,c,mult='ovr'):
+def contour_lr(p,X,y,c,mult='ovr'):
     """
         Takes:
             * p : penalty {‘l1’, ‘l2’, ‘elasticnet’, ‘none’}
@@ -484,7 +484,7 @@ def contour_SVM(X,y,c,ker,deg=2,gam=1,mult='ovr'):
     #those are all the hyperparameters that are, in my opinion, important to tune. C is again the good old inverse of the weight for l2 
     #regularization, kernel is the dot product you want to use, degree is the degree of the polynomial kernel you want to use,
     #gamma is the standard deviation for the Gaussian Radial Basis function, decision_function_shape is used in case of multiclass,
-    #proba = True is just here so we can draw the proba countour in our plot.
+    #proba = True is just here so we can draw the proba contour in our plot.
     models = models.fit(X, y)
     dico_color={0:'blue',1:'white',2:'red'}
 
@@ -574,7 +574,7 @@ def contour_SVM(X,y,c,ker,deg=2,gam=1,mult='ovr'):
 
 
 
-def countour_tree(X,y,crit,maxd,min_s,min_l,max_f):#to understand what those hyperparameters stand for just check the first example
+def contour_tree(X,y,crit,maxd,min_s,min_l,max_f):#to understand what those hyperparameters stand for just check the first example
     models = DecisionTreeClassifier(criterion=crit,max_depth=maxd,min_samples_split=min_s,min_samples_leaf=min_l,max_features=max_f)
     models = models.fit(X, y) 
 
@@ -622,7 +622,7 @@ def countour_tree(X,y,crit,maxd,min_s,min_l,max_f):#to understand what those hyp
 
     return Image(graph.create_png())
 
-def countour_RF(X,y,n_tree,crit,maxd,min_s,min_l,max_f):
+def contour_RF(X,y,n_tree,crit,maxd,min_s,min_l,max_f):
     """
     Performs a classification using a random forest and plots a 2D decision space
     and then does the same for a single tree classifier with similar hyper parameters for comparison
@@ -739,7 +739,7 @@ def countour_RF(X,y,n_tree,crit,maxd,min_s,min_l,max_f):
     plt.show()
 
     
-def countour_ADA(X,y,n_estimators,learning_rate):
+def contour_ADA(X,y,n_estimators,learning_rate):
     '''
     Takes:
         * X : covariables
@@ -814,7 +814,7 @@ def countour_ADA(X,y,n_estimators,learning_rate):
     plt.show()
 
 
-def countour_BG(X,y,
+def contour_BG(X,y,
                 n_estimators,
                 learning_rate,
                 max_depth,

@@ -170,7 +170,7 @@ def plot_contours(ax, clf, xx, yy, **params):
     out = ax.contourf(xx, yy, Z, **params)
     return out
 
-def countour_lr_kypho(X,y,df,p='l2',c=10**8):#(number of nearest neighbors, feature matrix, label, voting rule)
+def contour_lr_kypho(X,y,df,p='l2',c=10**8):#(number of nearest neighbors, feature matrix, label, voting rule)
     models = LogisticRegression(penalty = p,C=c,class_weight='balanced')
     models = models.fit(X, y) 
 
@@ -200,7 +200,7 @@ def countour_lr_kypho(X,y,df,p='l2',c=10**8):#(number of nearest neighbors, feat
     plt.show()
     print([[w,list(df.columns)[i]]for i,w in enumerate(models.coef_[0])]+['intercept',models.intercept_])
     
-def countour_lr_kypho_train_test(df,y,seed,p='l2',c=10**8,plot=True):#(number of nearest neighbors, feature matrix, label, voting rule)
+def contour_lr_kypho_train_test(df,y,seed,p='l2',c=10**8,plot=True):#(number of nearest neighbors, feature matrix, label, voting rule)
     
     X_train, X_test, y_train, y_test = train_test_split(df, y,
                                                    random_state=seed)
@@ -301,7 +301,7 @@ from scipy import interp
 from itertools import cycle
 from sklearn.preprocessing import StandardScaler
 
-def countour_lr2(p,X,y,c,mult):
+def contour_lr2(p,X,y,c,mult):
     models = LogisticRegression(penalty = p,C=c, multi_class=mult)# Create the logistic regresison object(with 3 main hyperparameters!!)
     # penalty is either l1 or l2, C is how much weight we put on the regularization, multi_calss is how we proceed when multiclasses
     
@@ -398,7 +398,7 @@ def countour_lr2(p,X,y,c,mult):
     plt.colorbar(imshow_handle, cax=ax0, orientation='horizontal')
     plt.show()
 
-def countour_lr(p,X,y,c,mult):
+def contour_lr(p,X,y,c,mult):
     models = LogisticRegression(penalty = p,C=c, multi_class=mult)# Create the logistic regresison object(with 3 main hyperparameters!!)
     # penalty is either l1 or l2, C is how much weight we put on the regularization, multi_calss is how we proceed when multiclasses
     X_train, X_test, y_train, y_test = train_test_split(X, y,
@@ -586,12 +586,12 @@ def countour_lr(p,X,y,c,mult):
         plt.show()
 
 from sklearn import svm
-def countour_SVM2(X,y,c,ker,deg,gam,mult):
+def contour_SVM2(X,y,c,ker,deg,gam,mult):
     models = svm.SVC(C=c, kernel=ker, degree=deg, gamma= gam, decision_function_shape=mult,probability=True)
     #those are all the hyperparameters that are, in my opinion, important to tune. C is again the good old inverse of the weight for l2 
     #regularization, kernel is the dot product you want to use, degree is the degree of the polynomial kernel you want to use,
     #gamma is the standard deviation for the Gaussian Radial Basis function, decision_function_shape is used in case of multiclass,
-    #proba = True is just here so we can draw the proba countour in our plot.
+    #proba = True is just here so we can draw the proba contour in our plot.
     models = models.fit(X, y)
     dico_color={0:'blue',1:'white',2:'red'}
 
@@ -664,12 +664,12 @@ def countour_SVM2(X,y,c,ker,deg,gam,mult):
     plt.colorbar(imshow_handle, cax=ax0, orientation='horizontal')
 
     plt.show()
-def countour_SVM(X,y,c,ker,deg,gam,mult):
+def contour_SVM(X,y,c,ker,deg,gam,mult):
     models = svm.SVC(C=c, kernel=ker, degree=deg, gamma= gam, decision_function_shape=mult,probability=True)
     #those are all the hyperparameters that are, in my opinion, important to tune. C is again the good old inverse of the weight for l2 
     #regularization, kernel is the dot product you want to use, degree is the degree of the polynomial kernel you want to use,
     #gamma is the standard deviation for the Gaussian Radial Basis function, decision_function_shape is used in case of multiclass,
-    #proba = True is just here so we can draw the proba countour in our plot.
+    #proba = True is just here so we can draw the proba contour in our plot.
     models = models.fit(X, y)
     dico_color={0:'blue',1:'white',2:'red'}
 
@@ -823,7 +823,7 @@ import pydotplus
 from sklearn import tree
 import collections
 from IPython.display import Image
-def countour_tree(X,y,crit,maxd,min_s,min_l,max_f):#to understand what those hyperparameters stand for just check the first example
+def contour_tree(X,y,crit,maxd,min_s,min_l,max_f):#to understand what those hyperparameters stand for just check the first example
     models = DecisionTreeClassifier(criterion=crit,max_depth=maxd,min_samples_split=min_s,min_samples_leaf=min_l,max_features=max_f)
     models = models.fit(X, y) 
 
@@ -874,7 +874,7 @@ def countour_tree(X,y,crit,maxd,min_s,min_l,max_f):#to understand what those hyp
 
 from sklearn.ensemble import RandomForestClassifier
 
-def countour_RF(X,y,n_tree,crit,maxd,min_s,min_l,max_f):
+def contour_RF(X,y,n_tree,crit,maxd,min_s,min_l,max_f):
     models = RandomForestClassifier(n_tree,criterion=crit,max_depth=maxd,min_samples_split=min_s,min_samples_leaf=min_l,max_features=max_f)
     models = models.fit(X, y) 
     dico_color={0:'blue',1:'white',2:'red'}
@@ -1023,7 +1023,7 @@ from sklearn.multiclass import OneVsRestClassifier
 from sklearn.preprocessing import label_binarize
 from scipy import interp
 from itertools import cycle
-def countour_lr_more(p,X,y,c,mult):
+def contour_lr_more(p,X,y,c,mult):
     models = LogisticRegression(penalty = p,C=c, multi_class=mult)# Create the logistic regresison object(with 3 main hyperparameters!!)
     # penalty is either l1 or l2, C is how much weight we put on the regularization, multi_calss is how we proceed when multiclasses
     models = models.fit(X, y)
