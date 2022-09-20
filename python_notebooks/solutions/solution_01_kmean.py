@@ -44,13 +44,13 @@ for i, v in enumerate(feature_vectors): # enumerate over the rows of feature_vec
 ## 3. use t-SNE to get an embedding of the data in 2D and represent it.
 ##     **bonus :** plot the species names in the embedded space with `plt.text`
 
-tsne_exo_sample=TSNE(n_components=2,perplexity=20).fit(df_mam_IS)
+tsne_exo_sample=TSNE(n_components=2,perplexity=20, init="pca", learning_rate='auto').fit(df_mam_IS)
 X_embedded_exo_sample = tsne_exo_sample.embedding_
 
 plt.figure(figsize=(10,10))
 plt.title('a point is a sample',fontsize=20)
-sns.scatterplot(X_embedded_exo_sample[:, 0], 
-                X_embedded_exo_sample[:, 1],  s=0, lw=0)
+sns.scatterplot(x=X_embedded_exo_sample[:, 0], 
+                y=X_embedded_exo_sample[:, 1],  s=0, lw=0)
 for i,sp in enumerate( df_mam.index ):
     plt.text( X_embedded_exo_sample[i,0] , X_embedded_exo_sample[i,1] , sp , color='blue' )
 
@@ -59,31 +59,25 @@ plt.xlabel('First Dimension')
 plt.ylabel('Second Dimension')
 
 
-## 4. perform a Kmean clustering on the PCA projected data. What is the best number of cluster according to the silhouette score?
+## 4. perform a Kmean, or hierarchical clustering, or DBSCAN clustering on the PCA projected data. What is the best number of cluster according to the silhouette score?
 nr_clusters = np.arange(15)+2
-inertias , silhouettes = getSilhouetteProfile( x_pca , nr_clusters )
+silhouettes = []
+
+for n in nr_clusters:
+    kmeans = cluster.KMeans(n)
+    kmeans.fit(x_pca)
+    silhouettes.append(silhouette_score(x_pca,kmeans.labels_))
 
 ## getting the K with maximum silhouette
 bestI = np.argmax( silhouettes )
 bestK = nr_clusters[bestI]
 print('best K :',bestK)
 
-plt.subplots(figsize=(15,7))
 
-plt.subplot(1,2,1)
-plt.plot(nr_clusters, inertias, ls="-", lw=2)
-plt.xlabel('Number of clusters',fontsize=20)
-plt.ylabel('Inertia',fontsize=20)
-plt.title('k-means clustering',fontsize=20)
-
-plt.subplot(1,2,2)
 plt.plot(nr_clusters, silhouettes, ls="-", lw=2)
 plt.xlabel('Number of clusters',fontsize=20)
 plt.ylabel('Silhouette  score',fontsize=20)
 plt.title('k-means clustering',fontsize=20)
-
-plt.tight_layout()
-plt.show()
 
 
 ## 5. plot the t-SNE projected data colored according to the cluster they belong to.
@@ -100,8 +94,8 @@ print(Counter(cluster_labels_mam))
 
 plt.figure(figsize=(10,10))
 plt.title('a point is a sample',fontsize=20)
-sns.scatterplot(X_embedded_exo_sample[:, 0], 
-                X_embedded_exo_sample[:, 1],  s=0, lw=0)
+sns.scatterplot(x=X_embedded_exo_sample[:, 0], 
+                y=X_embedded_exo_sample[:, 1],  s=0, lw=0)
 for i,sp in enumerate( df_mam.index ):
     plt.text( X_embedded_exo_sample[i,0] , X_embedded_exo_sample[i,1] , sp , 
              color= cluster_2_colors[cluster_labels_mam[i]] )
