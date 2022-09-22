@@ -11,11 +11,6 @@ print( "train set", Counter( y_train ) )
 print( "test set", Counter( y_test ) )
 
 
-%%time
-##the %%time is a jupyter cell magic command which will measure the time 
-# it takes for a cell to run and report it.
-# WARNING : it only works if it is the 1st line of the cell, so you have to manually move it there...
-
 # starting with a feature selection
 skb = SelectKBest(chi2, k=20)
 skb.fit(X_train , y_train)
@@ -43,6 +38,10 @@ grid_param = [ {'classifier':[RandomForestClassifier(n_jobs=-1,class_weight='bal
                'classifier__learning_rate':np.arange(0.01,0.1,0.02) }]
 
 
+%%time
+##the %%time is a jupyter cell magic command which will measure the time 
+# it takes for a cell to run and report it.
+# WARNING : it only works if it is the 1st line of the cell, so you have to manually move it there...
 
 gridsearch_Potato = GridSearchCV(pipe, grid_param, cv=5, verbose=0,n_jobs=-1,scoring='roc_auc') # Fit grid search
 best_model_Potato = gridsearch_Potato.fit(X_train_reduced,y_train)
@@ -72,7 +71,8 @@ plotConfusionMatrix( y_test, y_pred_test,
                     ['White','Yellow'],
                     plotTitle , 
                     ax = None)
-plot_roc_curve(best_model_Potato,X_test_reduced, y_test)
+from sklearn.metrics import RocCurveDisplay
+RocCurveDisplay.from_estimator(best_model_Potato,X_test_reduced, y_test)
 
 ## extract the best estimator steps from the pipeline
 RF = best_model_Potato.best_estimator_.steps[0][1]
