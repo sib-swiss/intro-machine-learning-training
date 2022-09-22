@@ -111,6 +111,15 @@ y_decision_fn_scores_acc=grid_lr_reg_P.score(X_test,y_test)
 
 print('linear regression best parameter (max. r2) model on test: ', y_decision_fn_scores_acc)
 
+m,M = min(y_train) , max(y_train)
+plt.plot( [m,M] , [m,M] , color='black' , linestyle='dashed' )
+plt.scatter( grid_lr_reg_P.best_estimator_.predict(X_train) ,  y_train, c='gray' , label='training points')
+plt.scatter( grid_lr_reg_P.best_estimator_.predict(X_test) ,  y_test , c='xkcd:tomato' , label='testing points' )
+plt.xlabel("predicted values")
+plt.ylabel("true values")
+plt.legend()
+
+
 # we already have access to the best estimator, let's grab specific steps:
 # grid_lr_reg_P.best_estimator_.steps 
 selec = grid_lr_reg_P.best_estimator_.steps[0][1]
