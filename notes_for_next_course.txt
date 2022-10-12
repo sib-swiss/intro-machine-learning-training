@@ -1,0 +1,7 @@
+Notes for the next course - 10/2022
+
+ - nb 1 : correct ToC
+ - nb 1 : fix environment to make UMAP work
+ - nb 2 : add more doodles
+ - nb 2 : metric switch justification?
+ - make lightweight version of notebooks when slides are presented ?
