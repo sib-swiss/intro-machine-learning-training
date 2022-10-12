@@ -1,4 +1,6 @@
-June 2022 course: [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.6777795.svg)](https://doi.org/10.5281/zenodo.6777795)
+
+
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7188639.svg)](https://doi.org/10.5281/zenodo.7188639)
 
 # Introduction to Machine Learning (with python)
 
@@ -52,5 +54,5 @@ Note also the `utils.py` and `utils2.py` files which contain many utilitary func
 
 Please cite as : 
 
-Markus Mueller, Wandrille Duchemin, & Patricia Palagi. (2022, June 29). sib-swiss/intro-machine-learning-training: June 2022 course edition. Zenodo. [https://doi.org/10.5281/zenodo.6777795](https://doi.org/10.5281/zenodo.6777795)
+Markus Mueller, Wandrille Duchemin, & Jens Settelmeier. (2022, October 12). sib-swiss/intro-machine-learning-training: October2022. Zenodo. [https://doi.org/10.5281/zenodo.7188639](https://doi.org/10.5281/zenodo.7188639)
 
