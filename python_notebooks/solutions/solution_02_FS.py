@@ -2,8 +2,8 @@ from sklearn.feature_selection import SelectKBest
 from sklearn.feature_selection import f_classif
 
 
-# Creating the object SelectKBest and settling for 10 best features 
-skb = SelectKBest(f_classif, k=10)
+# Creating the object SelectKBest and settling for 5 best features 
+skb = SelectKBest(f_classif, k=5)
 skb.fit(
     X_cancer, 
     y_cancer)
@@ -19,11 +19,11 @@ for feature,pval in sortedPvals:
         break 
     print('\t',feature , ':' , pval )
 
-selected10 = [x for x,p in sortedPvals[:10] ]
+selected5 = [x for x,p in sortedPvals[:5] ]
 print("selected best:" , selected10 )
 
 
-sns.pairplot( df_cancer , hue='malignant' , vars=selected10 )
+sns.pairplot( df_cancer , hue='malignant' , vars=selected5 )
 
 
 ## that is very nice, but a lot of these are highly correlated...
@@ -42,7 +42,7 @@ x_pca = pca.fit_transform(X_cancer_norm)
 ## now we can select the best feature among the principal components
 
 
-skb = SelectKBest(f_classif, k=10)
+skb = SelectKBest(f_classif, k=5)
 skb.fit(
     x_pca, 
     y_cancer)

@@ -23,19 +23,18 @@ gridsearch_C = GridSearchCV(pipe, grid_param, cv=5, verbose=0,n_jobs=-1,scoring=
 best_model_C = gridsearch_C.fit(X_cancer_train,y_cancer_train)
 
 print(best_model_C.best_params_)
-
+print("Model accuracy:",gridsearch_C.best_score_)
 
 
 ## predicting the labels on the test set    
 y_pred_test_c=best_model_C.predict(X_cancer_test)
 
-bestC = best_model_C.best_params_['classifier__C']
-bestPenalty = best_model_C.best_params_['classifier__penalty']
+bestC = best_model_C.best_params_['classifier__gamma']
 
 
-plotTitle = 'logistic regression: {} penalty ; C: {:.1e}\n Accuracy: {:.3f}'.format(bestPenalty,
-                                                                         bestC,
-                                                                         accuracy_score(y_cancer_test,y_pred_test_c) )
+
+plotTitle = 'RBF: gamma: {:.1e}\n Accuracy: {:.3f}'.format(bestGamma,
+                                                         accuracy_score(y_cancer_test,y_pred_test_c) )
 
 
 plotConfusionMatrix( y_cancer_test, y_pred_test_c, 
@@ -70,7 +69,7 @@ grid_param = [
 
 
 
-PCA_NCOMPONENTS = 10
+PCA_NCOMPONENTS = 5
 
 pipe_pca = Pipeline([('scalar1',StandardScaler()),
                      ('pca',PCA(n_components=PCA_NCOMPONENTS)),
@@ -85,7 +84,8 @@ gridsearch_c_pca = GridSearchCV(pipe_pca,
 best_model_c_pca = gridsearch_c_pca.fit(X_cancer_train,y_cancer_train)
 
 print(best_model_c_pca.best_params_)
-print("Model accuracy:",best_model_c_pca.score(X_cancer_test,y_cancer_test))
+print("Model accuracy:",gridsearch_c_pca.best_score_)
+
 
 ## predicting the labels on the test set    
 y_pred_test_c=best_model_c_pca.predict(X_cancer_test)

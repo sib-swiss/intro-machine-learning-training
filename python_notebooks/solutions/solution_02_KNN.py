@@ -3,7 +3,7 @@ from sklearn.model_selection import GridSearchCV
 
 X_penguin_train, X_penguin_test, y_penguin_train, y_penguin_test = train_test_split(
                                                     X_penguin, y_penguin,
-                                                    random_state=463390,stratify=y_penguin)
+                                                    random_state=4212280,stratify=y_penguin)
 
 knn_i=KNeighborsClassifier(n_jobs=-1)
 
