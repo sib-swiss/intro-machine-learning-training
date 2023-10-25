@@ -1,6 +1,7 @@
 
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7188639.svg)](https://doi.org/10.5281/zenodo.7188639)
+
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.10039454.svg)](https://doi.org/10.5281/zenodo.10039454)
 
 # Introduction to Machine Learning (with python)
 
@@ -54,5 +55,5 @@ Note also the `utils.py` and `utils2.py` files which contain many utilitary func
 
 Please cite as : 
 
-Markus Mueller, Wandrille Duchemin, & Jens Settelmeier. (2022, October 12). sib-swiss/intro-machine-learning-training: October2022. Zenodo. [https://doi.org/10.5281/zenodo.7188639](https://doi.org/10.5281/zenodo.7188639)
+Mueller, M., & Duchemin, W. (2023, October 25). Introduction to Machine Learning - SIB training. Zenodo. https://doi.org/10.5281/zenodo.10039454
 
