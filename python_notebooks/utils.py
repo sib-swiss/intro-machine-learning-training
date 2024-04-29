@@ -11,7 +11,6 @@ from sklearn.preprocessing import label_binarize
 from scipy import interp
 from itertools import cycle
 from sklearn.tree import DecisionTreeClassifier
-import pydotplus
 from sklearn import tree
 import collections
 from IPython.display import Image
