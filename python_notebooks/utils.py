@@ -11,6 +11,7 @@ from sklearn.preprocessing import label_binarize
 from scipy import interp
 from itertools import cycle
 from sklearn.tree import DecisionTreeClassifier
+from sklearn.tree import plot_tree
 from sklearn import tree
 import collections
 from IPython.display import Image
@@ -599,27 +600,11 @@ def contour_tree(X,y,crit,maxd,min_s,min_l,max_f):#to understand what those hype
     ax.set_title(titles)
         
     plt.show()
-    
-    dot_data = tree.export_graphviz(models,
-                                feature_names=['x','y'],
-                                out_file=None,
-                                filled=True,
-                                rounded=True)
-    graph = pydotplus.graph_from_dot_data(dot_data)
-
-    colors = ('turquoise', 'orange')
-    edges = collections.defaultdict(list)
-
-    for edge in graph.get_edge_list():
-        edges[edge.get_source()].append(int(edge.get_destination()))
-
-    for edge in edges:
-        edges[edge].sort()    
-        for i in range(2):
-            dest = graph.get_node(str(edges[edge][i]))[0]
-            dest.set_fillcolor(colors[i])
-
-    return Image(graph.create_png())
+    fig,ax = plt.subplots(figsize=(15,7))
+    _ = plot_tree( models , feature_names=['x','y'] , 
+               fontsize=12 , filled=True , impurity=False , precision=3, ax=ax)
+    plt.show()
+    return
 
 def contour_RF(X,y,n_tree,crit,maxd,min_s,min_l,max_f):
     """
