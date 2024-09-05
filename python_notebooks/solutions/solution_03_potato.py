@@ -53,24 +53,26 @@ print("Model roc_auc on test set:",best_model_Potato.score(X_test_reduced,y_test
 ## predicting the labels on the test set    
 y_pred_test=best_model_Potato.predict(X_test_reduced)
 
-bestN = best_model_Potato.best_params_["classifier__n_estimators"]
-bestCrit = best_model_Potato.best_params_["classifier__criterion"]
-bestMD = best_model_Potato.best_params_["classifier__max_depth"]
-bestMSL = best_model_Potato.best_params_["classifier__min_samples_leaf"]
-bestMSS = best_model_Potato.best_params_["classifier__min_samples_split"]
+title = []
+for k in best_model_Potato.best_params_:
+    name = k.partition("__")[-1]
+    title.append( f"{name} {best_model_Potato.best_params_[k]}" )
+plotTitle =  " - ".join(title)
 
 
-plotTitle = """Random Forest - number of estimators :{}
-criterion: {}, max depth: {}
-min_samples_leaf: {}, min_samples_split: {},
-Accuracy: {:.3f}""".format(bestN,bestCrit,bestMD,bestMSL,bestMSS,
-                           accuracy_score(y_test,y_pred_test) )
+y_test_score=grid_tree_roc_auc.score(X_cancer_test,y_cancer_test)
 
+print('Grid best parameter (max. accuracy) model on test: ', y_test_score)
 
-plotConfusionMatrix( y_test, y_pred_test, 
-                    ['White','Yellow'],
-                    plotTitle , 
-                    ax = None)
+y_cancer_pred_test = grid_tree_roc_auc.predict(X_cancer_test)
+
+confusion_m = confusion_matrix(y_test, y_pred_test)
+
+plt.figure(figsize=(5.5,4))
+sns.heatmap(confusion_m, annot=True , xticklabels=['White','Yellow'] , yticklabels=['White','Yellow'] )
+plt.ylabel('True label')
+plt.xlabel('Predicted label')
+
 from sklearn.metrics import RocCurveDisplay
 RocCurveDisplay.from_estimator(best_model_Potato,X_test_reduced, y_test)
 

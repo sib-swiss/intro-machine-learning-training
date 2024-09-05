@@ -8,7 +8,7 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import roc_curve, auc
 from sklearn.multiclass import OneVsRestClassifier
 from sklearn.preprocessing import label_binarize
-from scipy import interp
+from numpy import interp
 from itertools import cycle
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.tree import plot_tree
@@ -208,16 +208,15 @@ def makeROCcurve(X,y,model,ax):
     else:
         makeROCcurveBin(X,y,model,ax)
 
-def contour_lr(p,X,y,c,mult='ovr'):
+def contour_lr(p,X,y,c):
     """
         Takes:
             * p : penalty {‘l1’, ‘l2’, ‘elasticnet’, ‘none’}
             * X : covariables
             * y : target
             * c : inverse regularization strength
-            * mult = 'ovr': how to handle multi-class {‘auto’, ‘ovr’, ‘multinomial’}
     """
-    models = LogisticRegression(penalty = p,C=c, multi_class=mult)
+    models = LogisticRegression(penalty = p,C=c)
     # Create the logistic regresison object(with 3 main hyperparameters!!)
     # penalty is either l1 or l2, C is how much weight we put on the regularization, multi_calss is how we proceed when multiclasses
     models = models.fit(X, y)

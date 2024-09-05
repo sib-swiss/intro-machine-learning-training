@@ -33,17 +33,18 @@ print('Grid best score (accuracy): {:.3f}'.format( grid_knn_acc_Penguin.best_sco
 print('Grid best parameter (max. accuracy) model on test: {:.3f}'.format( testBestScore) )
 
 ## predicting the labels on the test set    
-y_pred_test_c=grid_knn_acc_Penguin.predict(X_penguin_test)
+y_pred_test=grid_knn_acc_Penguin.predict(X_penguin_test)
 
 bestNN = grid_knn_acc_Penguin.best_params_['model__n_neighbors']
 bestWeight = grid_knn_acc_Penguin.best_params_['model__weights']
 
 plotTitle = 'KNN n_neighbors: {}, weights: {}\n Accuracy: {:.3f}'.format(bestNN,
                                                                          bestWeight,
-                                                                         accuracy_score(y_penguin_test,y_pred_test_c) )
+                                                                         accuracy_score(y_penguin_test,y_pred_test) )
 
-
-plotConfusionMatrix( y_penguin_test, y_pred_test_c, 
-                    ['Adelie','Chinstrap','Gentoo'] , plotTitle , 
-                    ax = None)
-    
+confusion_m_penguin = confusion_matrix(y_penguin_test, y_pred_test)
+plt.figure(figsize=(5.5,4))
+sns.heatmap(confusion_m_penguin, annot=True)
+plt.title(plotTitle)
+plt.ylabel('True label')
+plt.xlabel('Predicted label')
