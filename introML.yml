@@ -1,5 +1,6 @@
 name: introML
 channels:
+  - pytorch
   - conda-forge
 dependencies:
   - _libgcc_mutex=0.1
@@ -13,6 +14,7 @@ dependencies:
   - attrs=24.2.0
   - babel=2.14.0
   - beautifulsoup4=4.12.3
+  - blas=1.0
   - bleach=6.1.0
   - brotli=1.1.0
   - brotli-bin=1.1.0
@@ -27,6 +29,7 @@ dependencies:
   - colorama=0.4.6
   - comm=0.2.2
   - contourpy=1.3.0
+  - cpuonly=2.0
   - cycler=0.12.1
   - debugpy=1.8.5
   - decorator=5.1.1
@@ -35,9 +38,12 @@ dependencies:
   - et_xmlfile=1.1.0
   - exceptiongroup=1.2.2
   - executing=2.1.0
+  - filelock=3.15.4
   - fonttools=4.53.1
   - fqdn=1.5.1
   - freetype=2.12.1
+  - gmp=6.3.0
+  - gmpy2=2.1.5
   - h11=0.14.0
   - h2=4.1.0
   - hpack=4.0.0
@@ -56,6 +62,7 @@ dependencies:
   - jedi=0.19.1
   - jinja2=3.1.4
   - joblib=1.4.2
+  - jpeg=9e
   - json5=0.9.25
   - jsonpointer=3.0.0
   - jsonschema=4.23.0
@@ -74,7 +81,7 @@ dependencies:
   - keyutils=1.6.1
   - kiwisolver=1.4.5
   - krb5=1.21.3
-  - lcms2=2.16
+  - lcms2=2.15
   - ld_impl_linux-64=2.40
   - lerc=4.0.0
   - libblas=3.9.0
@@ -82,7 +89,7 @@ dependencies:
   - libbrotlidec=1.1.0
   - libbrotlienc=1.1.0
   - libcblas=3.9.0
-  - libdeflate=1.21
+  - libdeflate=1.17
   - libedit=3.1.20191231
   - libexpat=2.6.2
   - libffi=3.4.2
@@ -94,7 +101,7 @@ dependencies:
   - libgomp=14.1.0
   - libhwloc=2.11.1
   - libiconv=1.17
-  - libjpeg-turbo=3.0.0
+  - libjpeg-turbo=2.0.0
   - liblapack=3.9.0
   - libllvm14=14.0.6
   - libnsl=2.0.1
@@ -104,29 +111,35 @@ dependencies:
   - libsqlite=3.46.1
   - libstdcxx=14.1.0
   - libstdcxx-ng=14.1.0
-  - libtiff=4.6.0
+  - libtiff=4.5.0
   - libuuid=2.38.1
   - libwebp-base=1.4.0
-  - libxcb=1.16
+  - libxcb=1.13
   - libxcrypt=4.4.36
   - libxml2=2.12.7
   - libzlib=1.3.1
+  - llvm-openmp=15.0.7
   - llvmlite=0.43.0
   - markupsafe=2.1.5
   - matplotlib-base=3.9.2
   - matplotlib-inline=0.1.7
   - mistune=3.0.2
+  - mkl=2022.2.1
+  - mpc=1.3.1
+  - mpfr=4.2.1
+  - mpmath=1.3.0
   - munkres=1.1.4
   - nbclient=0.10.0
   - nbconvert-core=7.16.4
   - nbformat=5.10.4
   - ncurses=6.5
   - nest-asyncio=1.6.0
+  - networkx=3.3
   - notebook=7.2.2
   - notebook-shim=0.2.4
   - numba=0.60.0
   - numpy=2.0.2
-  - openjpeg=2.5.2
+  - openjpeg=2.5.0
   - openpyxl=3.1.5
   - openssl=3.3.2
   - overrides=7.7.0
@@ -137,7 +150,7 @@ dependencies:
   - patsy=0.5.6
   - pexpect=4.9.0
   - pickleshare=0.7.5
-  - pillow=10.4.0
+  - pillow=9.4.0
   - pip=24.2
   - pkgutil-resolve-name=1.3.10
   - platformdirs=4.2.2
@@ -159,6 +172,8 @@ dependencies:
   - python-json-logger=2.0.7
   - python-tzdata=2024.1
   - python_abi=3.11
+  - pytorch=2.4.1
+  - pytorch-mutex=1.0
   - pytz=2024.1
   - pyyaml=6.0.2
   - pyzmq=26.2.0
@@ -180,6 +195,7 @@ dependencies:
   - soupsieve=2.5
   - stack_data=0.6.2
   - statsmodels=0.14.2
+  - sympy=1.13.2
   - tbb=2021.12.0
   - tenacity=9.0.0
   - terminado=0.18.1
