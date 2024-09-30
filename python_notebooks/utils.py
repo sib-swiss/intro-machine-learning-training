@@ -733,7 +733,7 @@ def contour_ADA(X,y,n_estimators,learning_rate):
     '''
     n_tree=n_estimators
     learn_r=learning_rate
-    models = AdaBoostClassifier(n_estimators=n_estimators,learning_rate=learning_rate)
+    models = AdaBoostClassifier(n_estimators=n_estimators,learning_rate=learning_rate, algorithm="SAMME")
     models = models.fit(X, y) 
     dico_color={0:'blue',1:'white',2:'red'}
         # title for the plots
