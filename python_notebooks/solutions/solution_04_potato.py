@@ -42,67 +42,58 @@ print('Grid best parameter (max. r2): ', grid_lr_reg_P.best_params_)
 print('Grid best score (r2): ', grid_lr_reg_P.best_score_)
 
 %%time
-from sklearn.svm import SVR
-
-svr_P=SVR()
-
-pipeline_svr_P=Pipeline([('selectk',SelectKBest(f_regression,k=500)),('scalar',StandardScaler()),('model',svr_P)])
+from sklearn.neighbors import KNeighborsRegressor
+pipeline_knn_P=Pipeline([('selectk',SelectKBest(f_regression,k=500)),
+                          ('scalar',StandardScaler()),
+                          ('model', KNeighborsRegressor() )])
 
 from sklearn.model_selection import GridSearchCV
 
 # define the hyperparameters you want to test with their range
-# kernel: kernel type to be used in the algorithm (function that takes low dimensional input space 
-# and transforms it to a higher dimensional space)
-# degree: degree of the polynomial kernel function
-# epsilon: parameters that controls which data points contribute to regularization
-# C: inverse of regularization strength
-
-# note : here we are most interested into learning about which genes are responsible
-# for color, so we need interpretable weights and will thus restrict ourselves to linear kernels
-grid_values = {'model__kernel':['poly'],
-               'model__degree':[1,2],
-               'model__epsilon':np.logspace(-2,0,5),
-               'model__C':np.logspace(-2,2,5)}
+grid_values = {'selectk__k':np.arange(50,500,50),
+               'model__n_neighbors': np.arange(3,10),
+               'model__weights': ['uniform','distance'],
+               }
 
 # Feed them to GridSearchCV with the right score (R squared)
-grid_svr_P = GridSearchCV(pipeline_svr_P, param_grid = grid_values, scoring='r2',n_jobs=-1)
+grid_knn_P = GridSearchCV(pipeline_knn_P, param_grid = grid_values, scoring='r2',n_jobs=-1)
 
-grid_svr_P.fit(X_train, y_train)
+grid_knn_P.fit(X_train, y_train)
 
 
-print('Grid best parameter (max. r2): ', grid_svr_P.best_params_)
-print('Grid best score (r2): ', grid_svr_P.best_score_)
+# get the best parameters
+print('Grid best parameter (max. r2): ', grid_knn_P.best_params_)
+#get the best score calculated from the train/validation dataset
+print('Grid best score (r2): ', grid_knn_P.best_score_)
+
+
 
 %%time
-from sklearn.ensemble import GradientBoostingRegressor
-skb = SelectKBest(f_regression, k=500)
-skb.fit(X_train , y_train)
-X_train_reduced = X_train.loc[ : , skb.get_support() ]
-
-X_test_reduced = X_test.loc[ : , skb.get_support() ]
+from sklearn.ensemble import RandomForestRegressor
 
 # define the hyperparameters you want to test with their range
-grid_values = { 'model__learning_rate':10**np.arange(-1,-3 , -0.25),
-               'model__n_estimators':[100,200,300], 
-               'model__max_depth':[50,100,200],
-               'model__min_samples_split':[5],
-               'model__min_samples_leaf':[5]}
+grid_values = { 'model__n_estimators':[100,200,300], 
+               'model__max_depth':[3,5,10,25],
+               'model__min_samples_split':[5,10],
+               'model__min_samples_leaf':[5,10]}
 
-pipeline_GB_P=Pipeline([('model',GradientBoostingRegressor())])
+
+pipeline_RF_P=Pipeline([('select' , SelectKBest(f_regression, k=100)),
+                        ('model',RandomForestRegressor())])
 
 # Feed them to GridSearchCV with the right score (R squared)
-grid_GB_P = GridSearchCV(pipeline_GB_P, param_grid = grid_values, scoring='r2',n_jobs=-1)
+grid_RF_P = GridSearchCV(pipeline_RF_P, param_grid = grid_values, scoring='r2',n_jobs=-1)
 
-grid_GB_P.fit(X_train_reduced, y_train)
+grid_RF_P.fit(X_train, y_train)
 
 
-print('Grid best parameter (max. r2): ', grid_GB_P.best_params_)
-print('Grid best score (r2): ', grid_GB_P.best_score_)
+print('Grid best parameter (max. r2): ', grid_RF_P.best_params_)
+print('Grid best score (r2): ', grid_RF_P.best_score_)
 
 
 print('linear regression best score (r2):      ', grid_lr_reg_P.best_score_)
-print('SVR best score (r2):                    ', grid_svr_P.best_score_)
-print('gradient boosting tree best score (r2): ', grid_GB_P.best_score_)
+print('KNN best score (r2):                    ', grid_knn_P.best_score_)
+print('Random Forest best score (r2):          ', grid_RF_P.best_score_)
 
 # so here the grid which gives the best r2 is the LR
 print( "best parameters", grid_lr_reg_P.best_params_ )

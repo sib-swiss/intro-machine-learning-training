@@ -20,6 +20,7 @@ from sklearn.ensemble import AdaBoostClassifier
 from sklearn.ensemble import GradientBoostingClassifier
 from sklearn import svm
 from sklearn.multiclass import OneVsOneClassifier
+from sklearn.tree import plot_tree
 
 plt.rc('xtick', color='k', labelsize='medium', direction='in')
 plt.rc('xtick.major', size=8, pad=12)

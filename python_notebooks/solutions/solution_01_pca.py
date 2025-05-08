@@ -26,7 +26,7 @@ aa=axes[1].scatter(x_pca[:,0],x_pca[:,1],c=df_aml.auc,s=80,cmap='plasma')
 axes[1].set_xlabel('First Principal Component ({0:.2f}%)'.format(pca.explained_variance_ratio_[0]*100))
 axes[1].set_ylabel('Second Principal Component ({0:.2f}%)'.format(pca.explained_variance_ratio_[1]*100))
 
-cmap = cm.get_cmap('gnuplot')
+cmap = plt.get_cmap('gnuplot')
 n = feature_vectors.shape[0]
 for i, v in enumerate(feature_vectors): # enumerate over the rows of feature_vectors
     axes[1].arrow(0, 0, arrow_size * v[0], arrow_size * v[1], head_width=0.00008, head_length=0.00008, width=0.00005,

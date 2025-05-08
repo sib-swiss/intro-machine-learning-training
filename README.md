@@ -1,4 +1,4 @@
-
+ 
 
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.10039454.svg)](https://doi.org/10.5281/zenodo.10039454)
@@ -28,10 +28,11 @@ The course is organized in several, numbered, jupyter notebooks, each correspond
 The course does not require any particular expertise with jupyter notebooks to be followed, but if it is the first time you encounter them we recommend this [gentle introduction](https://realpython.com/jupyter-notebook-introduction/).
 
  * [Chapter0 : python warmup](python_notebooks/Chapter_0_python_warmup.ipynb): provides a gentle warm-up to the basic usage of the libraries which are a pre-requisite for this course. You can use this notebook to assess your level before the course, or just as a way to get (re-)acquainted with these libraries.
- * [Chapter1 : Exploratory analysis and unsupervised learning](python_notebooks/Chapter_1_Exploratory_analysis_and_unsupervised_learning.ipynb)
- * [Chapter2 : Machine Learning routine - distance-based model for classification](python_notebooks/Chapter_2_Machine_Learning_routine__distance_based_model_for_classification.ipynb)
- * [Chapter3 : Machine Learning based on decision trees for classification](python_notebooks/Chapter_3_Machine_Learning_based_on_decision_trees_for_classification.ipynb)
- * [Chapter4 : Machine Learning for regression](python_notebooks/Chapter_4_Machine_Learning_for_regression.ipynb)
+ * [Chapter1 : Exploratory analysis](python_notebooks/Chapter_1_Exploratory_analysis.ipynb)
+ * [Chapter2 : Unsupervised learning](python_notebooks/Chapter_2_unsupervised_learning.ipynb)
+ * [Chapter3 : Machine Learning routine - distance-based model for classification](python_notebooks/Chapter_2_Machine_Learning_routine__distance_based_model_for_classification.ipynb)
+ * [Chapter4 : Machine Learning based on decision trees for classification](python_notebooks/Chapter_3_Machine_Learning_based_on_decision_trees_for_classification.ipynb)
+ * [Chapter5 : Machine Learning for regression](python_notebooks/Chapter_4_Machine_Learning_for_regression.ipynb)
  * [Chapter Extra : Teasing Neural Network](python_notebooks/Chapter_Extra_Teasing_Neural_Network.ipynb)
 
 Solutions to each practical can be found in the [`solutions/`](python_notebooks/solutions/) folder and should be loadable directly in the jupyter notebook themselves.
