@@ -1,0 +1,28 @@
+{
+  "upload_type": "lesson",
+  "title": "Course material for Introduction to Machine Learning - SIB training",
+  "license": "cc-by-4.0",
+  "keywords": [
+    "Machine Learning",
+    "python",
+    "course",
+    "training"
+  ],
+  "creators": [
+    {
+      "name": "Duchemin, Wandrille",
+      "affiliation": "SIB Swiss Institute of Bioinformatics",
+      "orcid": "0000-0001-8854-7235"
+    },
+    {
+      "name": "Müller, Markus",
+      "affiliation": "SIB Swiss Institute of Bioinformatics",
+      "orcid": "0000-0003-0907-3583"
+    },
+    {
+      "name": "Tran, Van Du",
+      "affiliation": "SIB Swiss Institute of Bioinformatics",
+      "orcid": "0000-0003-2074-5029"
+    }
+  ]
+}
