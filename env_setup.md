@@ -27,7 +27,7 @@ conda activate introML
 
 These commands install all necessary modules and their dependencies:
 ```
-conda install -c conda-forge -y scikit-learn seaborn xlrd openpyxl umap-learn plotly ipywidgets ipykernel
+conda install -c conda-forge -y scikit-learn seaborn xlrd openpyxl umap-learn plotly ipywidgets ipykernel nbformat
 pip install string-kernels
 conda install -c pytorch -y pytorch torchvision torchaudio cpuonly 
 ```
@@ -38,7 +38,7 @@ If you want to manage the environment for this course using [uv](https://docs.as
 
 ```
 uv init . # presuming your terminal is already in the folder where you want the project
-uv add scikit-learn seaborn xlrd openpyxl umap-learn plotly ipywidgets ipykernel jupyterlab
+uv add scikit-learn seaborn xlrd openpyxl umap-learn plotly ipywidgets ipykernel nbformat jupyterlab
 uv add torch
 ```
 
@@ -59,5 +59,6 @@ Python : at least 3.12
  * umap-learn
  * plotly
  * ipywidgets
+ * nbformat
  * string-kernels
  * pytorch
