@@ -38,7 +38,7 @@ If you want to manage the environment for this course using [uv](https://docs.as
 
 ```
 uv init . # presuming your terminal is already in the folder where you want the project
-uv add scikit-learn seaborn xlrd openpyxl umap-learn plotly ipywidgets ipykernel nbformat jupyterlab
+uv add scikit-learn seaborn xlrd openpyxl umap-learn plotly string-kernels ipywidgets ipykernel nbformat jupyterlab
 uv add torch
 ```
 
