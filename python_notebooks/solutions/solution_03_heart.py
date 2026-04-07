@@ -33,9 +33,9 @@ pipeline_heart=Pipeline([('imputer',SimpleImputer(strategy='mean')),
                             ('scalar',StandardScaler()),
                             ('model',LogisticRegression())])
 
-grid_values = [{'model': [LogisticRegression(class_weight='balanced', solver = "liblinear")],
-                'model__C': np.logspace(-4,4,500),
-                'model__penalty': ['l1','l2']},
+grid_values = [{'model': [LogisticRegression(class_weight='balanced', solver = "saga")],
+                'model__C': np.logspace(-4,4,200),
+                'model__l1_ratio': np.linspace(0,1,6)},
                {'model': [KNeighborsClassifier()],
                 'model__n_neighbors': np.arange(5,505,5),
                 'model__weights':['uniform','distance']}]

@@ -1,4 +1,4 @@
-
+from sklearn.model_selection import train_test_split
 ## splitting the data into a train an test set
 X_train, X_test , y_train , y_test = train_test_split( X , y , 
                                                       test_size=0.25, 
@@ -35,6 +35,7 @@ print('Grid best parameter (max. r2): ', grid_lr_reg_P.best_params_)
 print('Grid best score (r2): ', grid_lr_reg_P.best_score_)
 
 %%time
+from sklearn.feature_selection import SelectKBest,f_regression
 from sklearn.neighbors import KNeighborsRegressor
 pipeline_knn_P=Pipeline([('selectk',SelectKBest(f_regression,k=500)),
                           ('scalar',StandardScaler()),

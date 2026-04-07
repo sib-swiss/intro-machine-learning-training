@@ -3,12 +3,12 @@
 pipe = Pipeline([('scalar',StandardScaler()),("classifier", KNeighborsClassifier())])
 # Create dictionary with candidate learning algorithms and their hyperparameters
 grid_param = [
-                {"classifier": [KNeighborsClassifier(n_jobs=-1)],
+                {"classifier": [KNeighborsClassifier()],
                  "classifier__n_neighbors": np.arange(1,30,5),
                  "classifier__weights": ['uniform','distance']
                  },
-                {"classifier": [LogisticRegression(n_jobs=1,class_weight='balanced', solver='liblinear')],
-                 "classifier__penalty": ['l2','l1'],
+                {"classifier": [LogisticRegression(class_weight='balanced', solver='saga')],
+                 "classifier__l1_ratio": np.linspace(0,1,11),
                  "classifier__C": np.logspace(-2, 2, 10)
                  },
                 {"classifier": [svm.SVC(class_weight='balanced', probability=True, kernel='linear')],
@@ -29,17 +29,15 @@ print("Model accuracy:",gridsearch_C.best_score_)
 ## predicting the labels on the test set    
 y_pred_test_c=best_model_C.predict(X_cancer_test)
 
-bestC = best_model_C.best_params_['classifier__gamma']
+bestC = best_model_C.best_params_['classifier__C']
+best_l1_ratio = best_model_C.best_params_['classifier__l1_ratio']
 
+plotTitle = f'logstic regression: C: {bestC:.1e} l1-ratio: {best_l1_ratio:.1f}\n Accuracy: {accuracy_score(y_cancer_test,y_pred_test_c):.3f}'
 
-
-plotTitle = 'RBF: gamma: {:.1e}\n Accuracy: {:.3f}'.format(bestGamma,
-                                                         accuracy_score(y_cancer_test,y_pred_test_c) )
-
-
-plotConfusionMatrix( y_cancer_test, y_pred_test_c, 
-                    ['Benign','Malignant'] , plotTitle , 
-                    ax = None)
+sns.heatmap( pd.crosstab( y_cancer_test,y_pred_test_c ) , 
+             annot = True)
+plt.xlabel("predicted")
+plt.ylabel("observed")
 
 
 from sklearn.metrics import RocCurveDisplay
@@ -51,12 +49,12 @@ RocCurveDisplay.from_estimator(best_model_C,X_cancer_test, y_cancer_test)
 from sklearn.decomposition import PCA
 
 grid_param = [
-                {"classifier": [KNeighborsClassifier(n_jobs=-1)],
+                {"classifier": [KNeighborsClassifier()],
                  "classifier__n_neighbors": np.arange(1,30,5),
                  "classifier__weights": ['uniform','distance']
                  },
-                {"classifier": [LogisticRegression(n_jobs=1,class_weight='balanced', solver='liblinear')],
-                 "classifier__penalty": ['l2','l1'],
+                {"classifier": [LogisticRegression(class_weight='balanced', solver='saga')],
+                 "classifier__l1_ratio": np.linspace(0,1,11),
                  "classifier__C": np.logspace(-2, 2, 10)
                  },
                 {"classifier": [svm.SVC(class_weight='balanced', probability=True, kernel='linear')],
@@ -91,16 +89,14 @@ print("Model accuracy:",gridsearch_c_pca.best_score_)
 y_pred_test_c=best_model_c_pca.predict(X_cancer_test)
 
 bestC = best_model_C.best_params_['classifier__C']
-bestPenalty = best_model_C.best_params_['classifier__penalty']
+best_l1_ratio = best_model_C.best_params_['classifier__l1_ratio']
 
-plotTitle = 'logistic regression: {} penalty ; C: {:.1e}\n Accuracy: {:.3f}'.format(bestPenalty,
-                                                                         bestC,
-                                                                         accuracy_score(y_cancer_test,y_pred_test_c) )
+plotTitle = f'logstic regression: C: {bestC:.1e} l1-ratio: {best_l1_ratio:.1f}\n Accuracy: {accuracy_score(y_cancer_test,y_pred_test_c):.3f}'
 
-
-plotConfusionMatrix( y_cancer_test, y_pred_test_c, 
-                    ['Benign','Malignant'] , plotTitle , 
-                    ax = None)
+sns.heatmap( pd.crosstab( y_cancer_test,y_pred_test_c ) , 
+             annot = True)
+plt.xlabel("predicted")
+plt.ylabel("observed")
 
 
 from sklearn.metrics import RocCurveDisplay

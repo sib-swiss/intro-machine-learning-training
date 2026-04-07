@@ -209,21 +209,21 @@ def makeROCcurve(X,y,model,ax):
     else:
         makeROCcurveBin(X,y,model,ax)
 
-def contour_lr(p,X,y,c):
+def contour_lr(l1_ratio,X,y,C):
     """
         Takes:
-            * p : penalty {‘l1’, ‘l2’, ‘elasticnet’, ‘none’}
+            * l1_ratio : l1_ratio between 0 and 1
             * X : covariables
             * y : target
-            * c : inverse regularization strength
+            * C : inverse regularization strength
     """
-    models = LogisticRegression(penalty = p,C=c)
+    models = LogisticRegression(l1_ratio = l1_ratio,C=C)
     # Create the logistic regresison object(with 3 main hyperparameters!!)
     # penalty is either l1 or l2, C is how much weight we put on the regularization, multi_calss is how we proceed when multiclasses
     models = models.fit(X, y)
     dico_color={0:'blue',1:'white',2:'red'}
 
-    titles = 'Logistic regression penalty='+str(p)+' C='+str(c)
+    titles = f'Logistic regression l1_ratio={l1_ratio:.3f} C={C}'
 
     nbCategories = len( set(y) )
     if nbCategories> 3 :

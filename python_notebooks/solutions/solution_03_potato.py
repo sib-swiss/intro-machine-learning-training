@@ -60,11 +60,11 @@ for k in best_model_Potato.best_params_:
 plotTitle =  " - ".join(title)
 
 
-y_test_score=grid_tree_roc_auc.score(X_test_reduced,y_test)
+y_test_score=best_model_Potato.score(X_test_reduced,y_test)
 
 print('Grid best parameter (max. accuracy) model on test: ', y_test_score)
 
-y_cancer_pred_test = grid_tree_roc_auc.predict(X_test_reduced)
+y_cancer_pred_test = best_model_Potato.predict(X_test_reduced)
 
 confusion_m = confusion_matrix(y_test, y_pred_test)
 
