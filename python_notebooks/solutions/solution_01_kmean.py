@@ -64,7 +64,7 @@ nr_clusters = np.arange(15)+2
 silhouettes = []
 
 for n in nr_clusters:
-    kmeans = cluster.KMeans(n)
+    kmeans = KMeans(n)
     kmeans.fit(x_pca)
     silhouettes.append(silhouette_score(x_pca,kmeans.labels_))
 
@@ -81,7 +81,7 @@ plt.title('k-means clustering',fontsize=20)
 
 
 ## 5. plot the t-SNE projected data colored according to the cluster they belong to.
-kmeans_mam = cluster.KMeans(bestK)
+kmeans_mam = KMeans(bestK)
 kmeans_mam.fit(x_pca)
 
 # reporting the number of observations for each clusters
