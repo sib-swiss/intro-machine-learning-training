@@ -9,49 +9,47 @@ We recommend you create a new conda environment specifically for the course (if 
 
 Nevertheless, we detail here several methods a trust you will choose the one most appropriate to your situations.
 
-**important**: the course materials were developped and tested with **python >=3.11 and scikit-learn >=1.5**. Any anterior version will give errors and warnings aplenty!
+**important**: the course materials were developped and tested with **python >=3.12 and scikit-learn >=1.8**. Any anterior version will give errors and warnings aplenty!
 
 > NB: for future reference, some previous versions of this course were run with python 3.8 and scikit-learn 1.0.1 (prior to 2022), or python 3.10.5 and scikit-learn 1.1.1 (2022 to 2024)
 
 
-
-## method 1 : new conda environment from `.yml`
-
-Download the file <a href="https://downgit.github.io/#/home?url=https://github.com/sib-swiss/intro-machine-learning-training/blob/main/introML.yml" targte="_blank">introML2022.yml</a>.
-
+## method 1 : conda and pip commands to install 
 
 If you are on Windows and/or are allergic to command line, you can use the [anaconda navigator](https://docs.anaconda.com/anaconda/navigator/tutorials/manage-environments/#importing-an-environment) (if you don't know how to start the navigator, [here's how](https://docs.anaconda.com/anaconda/navigator/getting-started/#starting-navigator)).
 
 
-Otherwise, just open a terminal, navigate to where the file is, and use the following command:
+Otherwise you can use the commande line to create and activate a new enviroment
 ```
-conda env create -f introML.yml
-```
-
-Activate the new environment: `conda activate introML`
-
-Verify that the new environment was installed correctly: `conda env list`
-
-## method 2 : conda and pip commands to install 
-
-These first 2 commands create and activate a new enviroment
-```
-conda create -y -n introML python=3.11
+conda create -y -n introML python=3.12
 conda activate introML
 ```
 
 These commands install all necessary modules and their dependencies:
 ```
-conda install -y scikit-learn seaborn xlrd openpyxl umap-learn 
-conda install -y plotly ipywidgets
+conda install -c conda-forge -y scikit-learn seaborn xlrd openpyxl umap-learn plotly ipywidgets ipykernel
 pip install string-kernels
-conda install -y pytorch torchvision torchaudio cpuonly -c pytorch
+conda install -c pytorch -y pytorch torchvision torchaudio cpuonly 
 ```
 
+## method 2 : create a uv project
+
+If you want to manage the environment for this course using [uv](https://docs.astral.sh/uv) (a fast python project and package manager), you can use the following commands:
+
+```
+uv init . # presuming your terminal is already in the folder where you want the project
+uv add scikit-learn seaborn xlrd openpyxl umap-learn plotly ipywidgets ipykernel jupyterlab
+uv add torch
+```
+
+You can then launch a jupyterlab server with:
+```
+uv run --with jupyter jupyter lab
+```
 
 ## method 3 : install the following however you want
 
-Python : at least 3.11
+Python : at least 3.12
 
  * scikit-learn (version ar least 1.8)
  * jupyter-notebook
